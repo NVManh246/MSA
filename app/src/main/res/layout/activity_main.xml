@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.motion.widget.MotionLayout
-    android:id="@+id/mainView"
+    android:id="@+id/motionContainer"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,6 +9,13 @@
     tools:context=".ui.main.MainActivity"
     android:background="#000E53"
     app:layoutDescription="@xml/motion_play_list">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineOne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="1.1"/>
 
     <View
         android:id="@+id/viewList"
@@ -25,7 +32,6 @@
         app:layout_constraintBottom_toBottomOf="@id/viewList"
         app:layout_constraintLeft_toLeftOf="@id/viewList"
         app:layout_constraintRight_toRightOf="@id/viewList"
-        android:layout_marginTop="30dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"/>
 
@@ -34,7 +40,8 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginLeft="100dp"
-        android:background="@drawable/background_control_mini"/>
+        android:background="@drawable/background_control_mini"
+        app:layout_constraintTop_toBottomOf="parent"/>
 
     <ImageView
         android:id="@+id/imageSongControl"
@@ -135,15 +142,16 @@
     <EditText
         android:id="@+id/editSearch"
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintRight_toRightOf="@id/guidelineOne"
         android:layout_marginTop="20dp"
         android:background="@drawable/background_edit_search"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:paddingLeft="50dp"
-        android:textColor="@android:color/white"/>
+        android:paddingLeft="40dp"
+        android:textColor="@android:color/white"
+        android:maxLines="1"/>
 
     <ImageView
         android:id="@+id/imageSearch"
@@ -154,5 +162,45 @@
         app:layout_constraintLeft_toLeftOf="@id/editSearch"
         android:src="@drawable/ic_search_white_24dp"
         android:layout_marginLeft="10dp"/>
+
+    <View
+        android:id="@+id/viewSearch"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/editSearch"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@android:color/white"/>
+
+    <TextView
+        android:id="@+id/buttonCloseSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="close"
+        android:visibility="gone"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerSongSearch"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="@id/viewSearch"
+        app:layout_constraintBottom_toBottomOf="@id/viewSearch"
+        app:layout_constraintLeft_toLeftOf="@id/viewSearch"
+        app:layout_constraintRight_toRightOf="@id/viewSearch"
+        tools:listitem="@layout/item_song"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
+
+    <View
+        android:id="@+id/viewMedia"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 
 </androidx.constraintlayout.motion.widget.MotionLayout>
