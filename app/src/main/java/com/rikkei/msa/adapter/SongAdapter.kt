@@ -9,12 +9,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.google.gson.Gson
 import com.rikkei.msa.R
 import com.rikkei.msa.model.Song
 import com.rikkei.msa.util.TimeHelper
 import kotlinx.android.synthetic.main.item_song.view.*
-import java.io.ByteArrayOutputStream
 
 class SongAdapter(
     private val onItemClick: (Song) -> Unit
@@ -69,13 +67,32 @@ class SongAdapter(
         diffResult.dispatchUpdatesTo(this)
     }
 
-    class ViewHolder(parent: View, private val onItemClick: (Song) -> Unit): RecyclerView.ViewHolder(parent) {
+    class ViewHolder(
+        parent: View,
+        private val onItemClick: (Song) -> Unit
+    ): RecyclerView.ViewHolder(parent) {
         fun bindTo(song: Song) {
             itemView.setOnClickListener {
                 onItemClick(song)
+                song.selected = true
+
+//                if(!song.selected) {
+//                    itemView.imagePlaying.visibility = View.INVISIBLE
+//                    val params = itemView.imageSong.layoutParams
+//                    params.height = Utils.pxFromDp(itemView.context, 50F).toInt()
+//                    params.width = Utils.pxFromDp(itemView.context, 50F).toInt()
+//                    itemView.imageSong.layoutParams = params
+//                } else {
+//                    itemView.imagePlaying.visibility = View.VISIBLE
+//                    val params = itemView.imageSong.layoutParams
+//                    params.height = Utils.pxFromDp(itemView.context, 65F).toInt()
+//                    params.width = Utils.pxFromDp(itemView.context, 65F).toInt()
+//                    itemView.imageSong.layoutParams = params
+//                }
             }
+
             with(itemView) {
-                textDuration.text = TimeHelper.covertMillisecondToMinute(song.duration.toLong())
+                textDuration.text = TimeHelper.covertMillisecondToMinute(song.duration)
                 textTitle.text = song.title
                 textArtist.text = song.artist
             }
@@ -88,6 +105,8 @@ class SongAdapter(
                     .into(itemView.imageSong)
             }
         }
+
+
     }
 
     private class SongDiffCallback(

@@ -118,6 +118,7 @@ class MainPresenter(
     }
 
     companion object {
-        val MEDIA_PATH: String = Environment.getExternalStorageDirectory().path + "/MIUI/"
+//        val MEDIA_PATH: String = Environment.getExternalStorageDirectory().path + "/MIUI/"
+        val MEDIA_PATH: String = Environment.getExternalStorageDirectory().path
     }
 }

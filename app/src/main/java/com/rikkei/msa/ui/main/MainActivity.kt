@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     private val presenter: MainContract.Presenter by inject { parametersOf(this) }
     private val sharedPrefsManager: SharedPrefsManager by inject()
-    private var song: Song? = null
+    private var currentState: Int = -1
 
     private val songAdapter = SongAdapter {
         onItemClick(it)
@@ -97,6 +97,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         })
 
         recyclerSongSearch.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
+
             override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {}
 
             override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
@@ -111,6 +112,29 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
         })
 
+
+        motionContainer.setTransitionListener(object : MotionLayout.TransitionListener {
+            override fun onTransitionTrigger(
+                p0: MotionLayout?,
+                p1: Int,
+                p2: Boolean,
+                p3: Float
+            ) {
+
+            }
+
+            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
+            }
+
+            override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
+            }
+
+            override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
+                if(p0!!.currentState == R.id.start) {
+                    motionContainer.setTransition(R.id.start, R.id.end)
+                }
+            }
+        })
     }
 
     private fun initView() {
@@ -124,7 +148,13 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         }
 
         viewControlMini.setOnClickListener {
-            println("abc")
+            currentState = motionContainer.currentState
+            motionContainer.setTransitionDuration(200)
+            motionContainer.transitionToState(R.id.end3)
+        }
+
+        viewMedia.setOnClickListener {
+            println("it")
         }
     }
 
@@ -141,6 +171,14 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             setControlMini(song)
         } else {
             println("null")
+        }
+    }
+
+    override fun onBackPressed() {
+        if(motionContainer.currentState == R.id.end3) {
+            motionContainer.transitionToState(currentState)
+        } else {
+            super.onBackPressed()
         }
     }
 
@@ -178,6 +216,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     private fun setStateFirst() {
         if (motionContainer.currentState == R.id.end2) {
             editSearch.clearFocus()
+
             val imm = this.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(editSearch.windowToken, 0)
 
