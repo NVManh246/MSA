@@ -10,7 +10,8 @@ data class Song(
     val hasImage: Boolean,
     val duration: Long,
     var image: Bitmap? = null,
-    var lastTime: Long = 0
+    var lastTime: Long = 0,
+    var selected: Boolean = false
 ) {
 
     companion object {
